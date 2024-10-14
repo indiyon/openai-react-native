@@ -50,6 +50,7 @@ export namespace Beta {
         OpenAINode.Beta.Threads.Runs.RunCreateParamsNonStreaming;
     }
     export import Message = OpenAINode.Beta.Threads.Message;
+    export import MessagesPage = OpenAINode.Beta.Threads.MessagesPage;
     export namespace Messages {
       export import MessageCreateParams = OpenAINode.Beta.Threads.Messages.MessageCreateParams;
       export import MessageListParams = OpenAINode.Beta.Threads.Messages.MessageListParams;
@@ -120,8 +121,8 @@ export class OpenAI {
         list: async (
           threadId: string,
           query?: Beta.Threads.Messages.MessageListParams
-        ): Promise<Beta.Threads.Message[]> =>
-          (await this.client.beta.threads.messages.list(threadId, query)).data,
+        ): Promise<Beta.Threads.MessagesPage> =>
+          await this.client.beta.threads.messages.list(threadId, query),
         del: async (
           threadId: string,
           messageId: string
@@ -134,6 +135,8 @@ export class OpenAI {
           await this.client.beta.threads.messages.create(threadId, body),
       },
       runs: {
+        retrieve: (threadId: string, runId: string ): Promise<Beta.Threads.Run> => this.client.beta.threads.runs.retrieve(threadId,runId),
+        create: async (threadId: string, body: Beta.Threads.Runs.RunCreateParamsNonStreaming): Promise<Beta.Threads.Run> =>  await this.client.beta.threads.runs.create(threadId, body),
         stream: (
           threadId: string,
           body: Beta.Threads.Runs.RunCreateParamsNonStreaming,

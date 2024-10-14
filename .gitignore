@@ -2,3 +2,4 @@ node_modules
 dist
 openai-node
 scripts/test-runner
+.DS_Store
